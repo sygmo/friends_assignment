@@ -3,6 +3,8 @@ from django.urls import reverse
 from django.contrib import messages
 from .models import *
 
+# LOGINAPP views.py
+
 # Create your views here.
 def index(request):
 	return render(request, 'loginapp/index.html')
@@ -20,7 +22,7 @@ def register(request):
 		return redirect(reverse('success'))
 	else:
 		print_messages(request, did_register[1])
-		return redirect('/')
+		return redirect(reverse('loginapp-index'))
 
 def login(request):
 	did_login = User.objects.login(request)
@@ -34,16 +36,16 @@ def login(request):
 		return redirect(reverse('success'))
 	else:
 		print_messages(request, did_login[1])
-		return redirect(reverse('index'))
+		return redirect(reverse('loginapp-index'))
 
 def success(request):
 	if not 'user' in request.session:
-		return redirect(reverse('index'))
-	return render(request, 'loginapp/success.html')
+		return redirect(reverse('loginapp-index'))
+	return redirect(reverse('friends-index'))
 
 def logout(request):
 	request.session.pop('user')
-	return redirect(reverse('index'))
+	return redirect(reverse('loginapp-index'))
 
 def print_messages(request, message_list):
 	for message in message_list:
