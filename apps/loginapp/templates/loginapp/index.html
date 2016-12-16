@@ -1,0 +1,41 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Login Register</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+	{% if messages %}
+	<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+	</ul>
+	{% endif %}
+
+	<h1>Registration</h1>
+	<form action="{% url 'register' %}" method="POST">
+		{% csrf_token %}
+		First name: <input type="text" name="first_name">
+		Last name: <input type="text" name="last_name">
+		Email: <input type="email" name="email">
+		Password: <input type="password" name="password">
+		Confirm: <input type="password" name="password_confirm">
+		<input type="submit" value="Register">
+	</form>
+
+	<h1>Login</h1>
+	<form action="{% url 'login' %}" method="POST">
+		{% csrf_token %}
+		Email: <input type="email" name="email">
+		Password: <input type="password" name="password">
+		<input type="submit" value="Login">
+	</form>
+	
+</body>
+</html>
